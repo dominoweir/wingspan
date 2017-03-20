@@ -1,21 +1,21 @@
-pl.view.createBook = {
+pl.view.createFlight = {
   setupUserInterface: function () {
-    var saveButton = document.forms['Book'].commit;
-    // load all book objects
-    Book.loadAll();
+    var saveButton = document.forms['basic'].commit;
+    // load all flight objects
+    Flight.loadAll();
     // Set an event handler for the save/submit button
     saveButton.addEventListener("click",
-        pl.view.createBook.handleSaveButtonClickEvent);
+        pl.view.createFlight.handleSaveButtonClickEvent);
     window.addEventListener("beforeunload", function () {
-        Book.saveAll();
+        Flight.saveAll();
     });
   },
   handleSaveButtonClickEvent: function () {
-    var formEl = document.forms['Book'];
+    var formEl = document.forms['basic'];
     var slots = { isbn: formEl.isbn.value,
         title: formEl.title.value,
         year: formEl.year.value};
-    Book.add( slots);
+    Flight.add(slots);
     formEl.reset();
   }
 };
