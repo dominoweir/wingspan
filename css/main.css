@@ -21,7 +21,17 @@ a:hover {
   padding: 10px;
 }
 
+#locationField{
+    position: relative;
+    width: 480px;
+  }
 
+#autocomplete {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 99%;
+  }
 /*
  * Base structure
  */
