@@ -24,7 +24,7 @@
       <div class="site-wrapper-inner">
 
         <section>
-          <form id="form" class="simform" autocomplete="off">
+          <form id="form" class="simform" onSubmit="parseSubmission();" autocomplete="off">
             <div class="simform-inner">
               <ol class="questions">
                 <li>
@@ -39,14 +39,10 @@
       						<span>
                     <label for="q3">Do you want to be early or right on time?</label>
                   </span>
-                  <div class="row">
-                    <label class="block" for="q31" style="font-size:60%;">I want to get there early.</label>
-                    <input class="block" id="q31" type="radio" name="q3" value="early"/>
-                  </div>
-                  <div class="row">
-                    <label class="block" for="q32" style="font-size:60%;">I want to get there right on time.</label>
-                    <input class="block" id="q32" type="radio" name="q3" value="ontime"/>
-                  </div>
+                    <label for="q31" style="font-size:60%;">I want to get there early.</label>
+                    <input id="q31" type="radio" name="q3" value="early"/>
+                    <label for="q32" style="font-size:60%;">I want to get there right on time.</label>
+                    <input id="q32" type="radio" name="q3" value="ontime"/>
                 </li>
       					<li >
       						<span><label for="q4">Are you traveling with kids?</label></span>
@@ -72,22 +68,13 @@
         </section>
 
         <script src="js/classie.js"></script>
-        <script src="js/stepsForm.js"></script>
+        <script src="js/steps.js"></script>
         <script>
-        	var theForm = document.getElementById( 'form' );
-        	new stepsForm( theForm, {
+        	var form = document.getElementById( 'form' );
+        	new steps( form, {
         		onSubmit : function( form ) {
-    				// hide form
-    					classie.addClass( theForm.querySelector( '.simform-inner' ), 'hide' );
-        					/*
-          				form.submit()
-        					or
-        					AJAX request (maybe show loading indicator while we don't have an answer..)
-        					*/
-        					// let's just simulate something...
-          		var messageEl = theForm.querySelector( '.final-message' );
-        			messageEl.innerHTML = 'Give us a second...';
-        			classie.addClass( messageEl, 'show' );
+    				  // hide form
+    				  classie.addClass( form.querySelector( '.simform-inner' ), 'hide' );
               parseSubmission();
               window.location = "results.html";
         		}
@@ -106,5 +93,6 @@
     <script src="~/Documents/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByNrotEcmJr9KlyPK8qQqxyxrt9_2RH9Y&libraries=places&callback=initAutocomplete"
        async defer></script>
+    <script src="js/parse.js"></script>
   </body>
 </html>
