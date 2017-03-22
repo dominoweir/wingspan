@@ -1,17 +1,18 @@
 function parseSubmission(){
-  var formData = new FormData(document.querySelector('basic'));
-  var data = formData.entries();
-  runPyScript(data);
+    var formData = document.getElementById("form");
+    var text = "";
+    var i;
+    for (i = 0; i < x.length ;i++) {
+        text += x.elements[i].value + "<br>";
+    }
+    runPyScript(text);
 }
 function runPyScript(input){
   $.ajax({
     type: "POST",
-    url: "getTime.py",
-    data: { param: " "},
-    dataType: "text"
+    url: "../python/getTime.py",
+    data: { param: input},
     }).done(function( o ) {
     alert("OK");
-});
-
-        return jqXHR.responseText;
-  }
+  });
+}

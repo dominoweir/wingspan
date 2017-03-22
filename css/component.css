@@ -1,10 +1,22 @@
+@font-face {
+	font-weight: normal;
+	font-style: normal;
+	font-family: 'icomoon';
+	src:url('../fonts/icomoon/icomoon.eot?-9heso');
+	src:url('../fonts/icomoon/icomoon.eot?#iefix-9heso') format('embedded-opentype'),
+		url('../fonts/icomoon/icomoon.woff?-9heso') format('woff'),
+		url('../fonts/icomoon/icomoon.ttf?-9heso') format('truetype'),
+		url('../fonts/icomoon/icomoon.svg?-9heso#icomoon') format('svg');
+}
+
 .simform {
 	position: relative;
 	margin: 0 auto;
 	padding: 2em 0;
+	max-width: 860px;
 	width: 100%;
 	text-align: left;
-	font-size: 2.25em;
+	font-size: 2.5em;
 }
 
 .simform .submit {
@@ -14,7 +26,7 @@
 /* Question list style */
 .simform ol {
 	margin: 0;
-	padding: 20px;
+	padding: 0;
 	list-style: none;
 	position: relative;
 	-webkit-transition: height 0.4s;
@@ -23,7 +35,6 @@
 
 .simform ol:before {
 	content: '';
-	background-color: rgba(0,0,0,0.1);
 	position: absolute;
 	left: 0;
 	bottom: 0;
@@ -93,7 +104,7 @@
 	border: none;
 	background: transparent;
 	color: rgba(0,0,0,0.8);
-	font-size: 1em;
+	font-size: .8em;
 	line-height: 1;
 	opacity: 0;
 	-webkit-transition: opacity 0.3s;
@@ -121,7 +132,7 @@
 	height: 2em;
 	border: none;
 	background: none;
-	color: rgba(0,0,0,0.4);
+	color: #fff;
 	text-align: center;
 	opacity: 0;
 	z-index: 100;
@@ -149,7 +160,6 @@
 	font-weight: normal;
 	font-style: normal;
 	font-variant: normal;
-	font-family: 'icomoon';
 	line-height: 2;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
@@ -300,4 +310,17 @@
 /* Remove IE clear cross */
 input[type=text]::-ms-clear {
     display: none;
+}
+
+/* Adjust form for smaller screens */
+@media screen and (max-width: 44.75em) {
+	.simform {
+		font-size: 1.8em;
+	}
+}
+
+@media screen and (max-width: 33.5625em) {
+	.simform {
+		font-size: 1.2em;
+	}
 }

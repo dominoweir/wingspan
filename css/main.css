@@ -114,8 +114,6 @@ body {
     float: right;
   }
 }
-
-
 /*
  * Cover
  */
@@ -169,9 +167,35 @@ html, body, form, fieldset, table, tr, td, img {
 	font-style: normal;
 	font-variant: normal;
 	font-weight: 400;
-	line-height: 20px;
 }
 
 img{
   margin: 0 auto;
+}
+.row {
+  width: 100%;
+  text-align: left;
+  display:inline-block;
+  float: left;
+}
+
+.block {
+  display:inline-block;
+  text-align: left;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  width: 300px;
+}
+
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.clearfix:before, .clearfix:after { content: ''; display: table; }
+.clearfix:after { clear: both; }
+@media screen and (max-width: 44.75em) {
+	section { padding: 1em 2em; }
+}
+
+@media screen and (max-width: 25em) {
+	.codrops-header { font-size: 0.8em; }
+	section.related { font-size: 1.2em; }
+	.codrops-icon span { display: none; }
 }

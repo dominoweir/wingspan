@@ -4,12 +4,12 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- *
+ * 
  * Copyright 2014, Codrops
  * http://www.codrops.com
  */
 ;( function( window ) {
-
+	
 	'use strict';
 
 	var transEndEventNames = {
@@ -23,7 +23,7 @@
 		support = { transitions : Modernizr.csstransitions };
 
 	function extend( a, b ) {
-		for( var key in b ) {
+		for( var key in b ) { 
 			if( b.hasOwnProperty( key ) ) {
 				a[key] = b[key];
 			}
@@ -45,14 +45,20 @@
 	stepsForm.prototype._init = function() {
 		// current question
 		this.current = 0;
+
 		// questions
 		this.questions = [].slice.call( this.el.querySelectorAll( 'ol.questions > li' ) );
 		// total questions
 		this.questionsCount = this.questions.length;
 		// show first question
 		classie.addClass( this.questions[0], 'current' );
+		
 		// next question control
 		this.ctrlNext = this.el.querySelector( 'button.next' );
+
+		// progress bar
+		this.progress = this.el.querySelector( 'div.progress' );
+		
 		// question number status
 		this.questionStatus = this.el.querySelector( 'span.number' );
 		// current question placeholder
@@ -61,8 +67,10 @@
 		// total questions placeholder
 		this.totalQuestionNum = this.questionStatus.querySelector( 'span.number-total' );
 		this.totalQuestionNum.innerHTML = this.questionsCount;
+
 		// error message
 		this.error = this.el.querySelector( 'span.error-message' );
+		
 		// init events
 		this._initEvents();
 	};
@@ -77,10 +85,13 @@
 				classie.addClass( self.ctrlNext, 'show' );
 			};
 
+		// show the next question control first time the input gets focused
+		firstElInput.addEventListener( 'focus', onFocusStartFn );
+
 		// show next question
-		this.ctrlNext.addEventListener( 'click', function( ev ) {
+		this.ctrlNext.addEventListener( 'click', function( ev ) { 
 			ev.preventDefault();
-			self._nextQuestion();
+			self._nextQuestion(); 
 		} );
 
 		// pressing enter will jump to next question
@@ -99,7 +110,7 @@
 			// tab
 			if( keyCode === 9 ) {
 				ev.preventDefault();
-			}
+			} 
 		} );
 	};
 
@@ -121,6 +132,9 @@
 
 		// increment current question iterator
 		++this.current;
+
+		// update progress bar
+		this._progress();
 
 		if( !this.isFilled ) {
 			// change the current question number/status
@@ -162,6 +176,11 @@
 		}
 	}
 
+	// updates the progress bar by setting its width
+	stepsForm.prototype._progress = function() {
+		this.progress.style.width = this.current * ( 100 / this.questionsCount ) + '%';
+	}
+
 	// changes the current question number
 	stepsForm.prototype._updateQuestionNumber = function() {
 		// first, create next question number placeholder
@@ -194,9 +213,13 @@
 	stepsForm.prototype._showError = function( err ) {
 		var message = '';
 		switch( err ) {
-			case 'EMPTYSTR' :
+			case 'EMPTYSTR' : 
 				message = 'Please fill the field before continuing';
 				break;
+			case 'INVALIDEMAIL' : 
+				message = 'Please fill a valid email address';
+				break;
+			// ...
 		};
 		this.error.innerHTML = message;
 		classie.addClass( this.error, 'show' );
