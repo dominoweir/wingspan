@@ -1,32 +1,36 @@
 import numpy
 import scipy
 import sys
+import urllib
+import json as simplejson
 import googlemaps
-from datetime import datetime
+import re
 
-gmaps = googlemaps.Client(key='AIzaSyByNrotEcmJr9KlyPK8qQqxyxrt9_2RH9Y')
-
-# arg 0 will always be script name
-unparsed = sys.argv[1]
-
-# example input: q1=wo546738&q2=2707+Rio+Grande+Street%2C+Austin%2C+TX%2C+United+States&q3=early&q4=no
-unparsed.replace('&','=')
-responses = unparsed.split('=')
-flightnum = responses[1]
-address = responses[3].replace('+',' ')
-address.replace('%2C',',')
-early = responses[5]
-kids = responses[7]
-
-getTravelTime(address)
+gmaps = googlemaps.Client('AIzaSyByNrotEcmJr9KlyPK8qQqxyxrt9_2RH9Y')
 
 def getTravelTime(address):
     # geocode start address
-    geocode_start = gmaps.geocode(address)
+    orig_coord = address
 
-    now = datetime.now()
-    directions = gmaps.directions("Sydney Town Hall", "Parramatta, NSW", departure_time=now)
+    #geocode airport address
+    dest_coord = 'Austin-Bergstrom International Airport, Presidential Boulevard, Austin, TX'
 
-    f = open('workfile', 'w')
-    f.write(directions)
-    f.close()
+    # request directions from google maps api and retrieve driving time
+    url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(orig_coord, dest_coord)
+    result= simplejson.load(urllib.urlopen(url))
+
+    # dig through json formatting to get actual duration
+    driveTime = result['rows'][0]['elements'][0]['duration']['value']
+    return driveTime
+
+# example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
+parsed = sys.argv[1].split(',')
+
+flight = parsed[1]
+address = parsed[3]
+parsedAddress = address.replace('%2C',',')
+timing = parsed[5]
+kids = parsed[7]
+
+driveTime = getTravelTime(parsedAddress) / 60;
+print(driveTime);

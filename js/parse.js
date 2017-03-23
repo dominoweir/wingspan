@@ -1,6 +1,8 @@
 function parseSubmission(){
     var formString = $('#form').serialize();
-    runPyScript(formString);
+    var betterString = formString.replace(/&/g,"=");
+    var formArray = betterString.split("=");
+    runPyScript(formArray);
 }
 function runPyScript(input){
   $.ajax({
