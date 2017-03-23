@@ -1,10 +1,9 @@
-import numpy
-import scipy
 import sys
 import urllib
 import json as simplejson
 import googlemaps
-import re
+from flask import Flask, jsonify, render_template, request
+app = Flask(__name__)
 
 gmaps = googlemaps.Client('AIzaSyByNrotEcmJr9KlyPK8qQqxyxrt9_2RH9Y')
 
@@ -23,14 +22,21 @@ def getTravelTime(address):
     driveTime = result['rows'][0]['elements'][0]['duration']['value']
     return driveTime
 
-# example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
-parsed = sys.argv[1].split(',')
+@app.route('/get_time')
+def getTotalTime():
+    # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
+    longString = request.args.get('stringified', 0, type=str)
+    parsed = longString.split(',')
 
-flight = parsed[1]
-address = parsed[3]
-parsedAddress = address.replace('%2C',',')
-timing = parsed[5]
-kids = parsed[7]
+    # break down input to individual variables
+    flight = parsed[1]
+    address = parsed[3]
+    parsedAddress = address.replace('%2C',',')
+    timing = parsed[5]
+    kids = parsed[7]
 
-driveTime = getTravelTime(parsedAddress) / 60;
-print(driveTime);
+    driveTime = getTravelTime(parsedAddress) / 60;
+
+    simplejson.dumps(driveTime)
+
+    return jsonify(result=driveTime)
