@@ -76,7 +76,12 @@
         		onSubmit : function( form ) {
     				  // hide form
     				  classie.addClass( form.querySelector( '.simform-inner' ), 'hide' );
-              parseSubmission();
+              var formString = parseSubmission();
+
+              window.onbeforeunload = function() {
+                sessionStorage.setItem('response', formString);
+              }
+
               window.location = "results.html";
         		}
         	} );
