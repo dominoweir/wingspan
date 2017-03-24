@@ -24,6 +24,8 @@ def getTravelTime(address):
 
 @app.route('/get_time')
 def getTotalTime():
+    timeArray = []
+
     # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
     longString = request.args.get('stringified', 0, type=str)
     parsed = longString.split(',')
@@ -37,6 +39,17 @@ def getTotalTime():
 
     driveTime = getTravelTime(parsedAddress) / 60;
 
-    simplejson.dumps(driveTime)
+    timeArray.append(driveTime)
 
-    return jsonify(result=driveTime)
+    if(timing == 'early'):
+        timeArray.append(30)
+    else:
+        timeArray.append(10)
+
+    if(kids == 'yes'):
+        for i in timeArray:
+            timeArray[i] = timeArray[i] * 2
+
+    simplejson.dumps(str(timeArray))
+
+    return jsonify(result=str(timeArray))
