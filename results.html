@@ -24,6 +24,18 @@
 
       <div class="site-wrapper-inner">
 
+        <script>
+          var formString = sessionStorage.getItem('response');
+          var timeArray = '';
+          $.getJSON($SCRIPT_ROOT + '/get_time', {
+            stringified: $(formString).val()
+            }, function(data) {
+              alert(timeArray);
+              timeArray = data;
+          });
+
+        </script>
+
         <div class="container">
           <h2>Leave in</h2>
           <div class="progress">
