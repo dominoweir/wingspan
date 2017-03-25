@@ -5657,6 +5657,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel > .table-responsive {
   margin-bottom: 0;
+  margin-left: 20px;
   border: 0;
 }
 .panel-group {
@@ -5702,6 +5703,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-primary {
   border-color: #337ab7;
+  padding-left: 40px;
 }
 .panel-primary > .panel-heading {
   color: #fff;
