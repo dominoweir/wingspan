@@ -20,7 +20,7 @@
   <body>
 
     <div class="site-wrapper">
-``
+
       <div class="site-wrapper-inner">
 
         <section>
@@ -32,40 +32,25 @@
                   <input id="q1" name="q1" type="text"/>
                 </li>
                 <li>
-                  <span><label for="q2">Where do you want to leave from?</label></span>
+                  <span><label for="q2">Where do you live?</label></span>
                   <input id="q2" name="q2" type="text"/>
                 </li>
                 <li>
       						<span>
                     <label for="q3">Do you want to be early or right on time?</label>
                   </span>
-
-                    <button for="q31" input id="q31" style="font-size:60%;margin-top:30px;margin-bottom:30px;" type="button" class="btn btn-primary">I want to get there early</button>
-                    <button for="q32" input id="q31" style="font-size:60%;margin-top:30px;margin-bottom:30px;" type="button" class="btn btn-primary">I want to get there right on time</button>
-
-                    <!--
                     <label for="q31" style="font-size:60%;">I want to get there early.</label>
                     <input id="q31" type="radio" name="q3" value="early"/>
                     <label for="q32" style="font-size:60%;">I want to get there right on time.</label>
                     <input id="q32" type="radio" name="q3" value="ontime"/>
-                     -->
                 </li>
       					<li >
-      						<span>
-                    <label for="q4">Are you traveling with kids?</label>
-                  </span>
-
-                    <button for="q41" input id="q41" style="font-size:60%;margin-top:30px;margin-bottom:30px;" type="button" class="btn btn-primary">Yes</button>
-                    <button for="q42" input id="q41" style="font-size:60%;margin-top:30px;margin-bottom:30px;" type="button" class="btn btn-primary">No</button>
-
-                  <!--
-                    <label for="q41" style="font-size:60%;">Yes</label>
+      						<span><label for="q4">Are you traveling with kids?</label></span>
                     <input id="q41" type="radio" name="q4" value="yes"/>
-                    <label for="q42" style="font-size:60%;">No</label>
+                    <span><label for="q41" style="font-size:60%;">Yes</label></span>
                     <input id="q42" type="radio" name="q4" value="no"/>
-                  -->
+                    <span><label for="q42" style="font-size:60%;">No</label></span>
       					</li>
-
               </ol><!-- /questions -->
               <button class="submit" type="submit">Send answers</button>
               <div class="controls">
@@ -90,12 +75,7 @@
         		onSubmit : function( form ) {
     				  // hide form
     				  classie.addClass( form.querySelector( '.simform-inner' ), 'hide' );
-              var formString = parseSubmission();
-
-              window.onbeforeunload = function() {
-                sessionStorage.setItem('response', formString);
-              }
-
+              parseSubmission();
               window.location = "results.html";
         		}
         	} );
