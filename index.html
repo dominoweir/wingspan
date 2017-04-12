@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="689165532742-8fise7fj501dfe8pnpgk98vfdou1qd1j.apps.googleusercontent.com">
     <link rel="icon" href="~/Documents/bootstrap-3.3.7/docs/favicon.ico">
     <title>Wingspan</title>
     <link href="~/Documents/bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/button.css" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqJ4l1ICigZkgRJjLqwXqVnGDkg8zA61c&libraries=places"></script>
   </head>
 
@@ -24,7 +27,32 @@
               <h3 class="masthead-brand">Wingspan</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li><a href="login.html">Log In</a></li>
+                  <li><!-- <a href="login.html"><button class="loginBtn loginBtn--google">
+                        Login with Google
+                      </button></a>-->
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <script>
+                          function onSignIn(googleUser) {
+                          var profile = googleUser.getBasicProfile();
+                          console.log('ID: ' + profile.getId());
+                          console.log('Name: ' + profile.getName());
+                          console.log('Image URL: ' + profile.getImageUrl());
+                          console.log('Email: ' + profile.getEmail());
+
+                        }
+                    </script>
+                  </li>
+                  <li>
+                    <a href="#" onclick="signOut();">Sign out</a>
+                    <script>
+                      function signOut() {
+                          var auth2 = gapi.auth2.getAuthInstance();
+                          auth2.signOut().then(function () {
+                              console.log('User signed out.');
+                          });
+                      }
+                    </script>
+                  </li>
                 </ul>
               </nav>
             </div>
