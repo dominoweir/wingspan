@@ -176,7 +176,7 @@ img{
   width: 100%;
   text-align: left;
   display:inline-block;
-  float: left;
+  float: center-block;
 }
 
 .block {
