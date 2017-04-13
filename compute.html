@@ -79,6 +79,7 @@
               var formString = parseSubmission();
 
               window.onbeforeunload = function() {
+                alert(formString);
                 sessionStorage.setItem('response', formString);
               }
 
