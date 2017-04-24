@@ -1,6 +1,7 @@
 #ScriptName : testForm.py
 #---------------------
 from selenium import webdriver
+import os
 
 #Following are optional required
 from selenium.webdriver.common.by import By
@@ -8,29 +9,38 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 
 baseurl = "../compute.html"
-username = "admin"
-password = "admin"
 
-xpaths = { 'usernameTxtBox' : "//input[@name='username']",
-           'passwordTxtBox' : "//input[@name='password']",
-           'submitButton' :   "//input[@name='login']"
+flightNumber = "7"
+startLocation = "University of Texas at Austin, Austin, TX"
+timingPref = "early"
+withKids = "no"
+
+xpaths = { 'flightNumber' : "//input[@name='q1']",
+           'startLocation' : "//input[@name='q2']",
+           'timingPref' :   "//input[@name='q3']",
+           'withKids' : "//input[@name='q4']"
          }
 
-mydriver = webdriver.Firefox()
-mydriver.get(baseurl)
-mydriver.maximize_window()
+os.environ['PATH'] = "/Users/dominoweir/Documents/wingspan/test"
+print os.environ['PATH']
+driver = webdriver.Chrome()
+driver.get(baseurl)
+driver.maximize_window()
+results = open("formExpected.txt",'w')
 
-#Clear Username TextBox if already allowed "Remember Me"
-mydriver.find_element_by_xpath(xpaths['usernameTxtBox']).clear()
+# write sample data in to text boxes
+driver.find_element_by_xpath(xpaths['flightNumber']).send_keys(flightNumber)
+driver.find_element_by_xpath(xpaths['startLocation']).send_keys(startLocation)
+driver.find_element_by_xpath(xpaths['timingPref']).send_keys(timingPref)
+driver.find_element_by_xpath(xpaths['withKids']).send_keys(withKids)
 
-#Write Username in Username TextBox
-mydriver.find_element_by_xpath(xpaths['usernameTxtBox']).send_keys(username)
+# click submit button
+try:
+    driver.find_element_by_xpath(xpaths['submitButton']).click()
+    results.write("Simple test was a success.")
+except ElementNotVisibleException, e:
+    results.write("Simple test failed.")
+    results.write("Error encountered: " + e)
 
-#Clear Password TextBox if already allowed "Remember Me"
-mydriver.find_element_by_xpath(xpaths['passwordTxtBox']).clear()
-
-#Write Password in password TextBox
-mydriver.find_element_by_xpath(xpaths['passwordTxtBox']).send_keys(password)
-
-#Click Login button
-mydriver.find_element_by_xpath(xpaths['submitButton']).click()
+results.close()
+driver.quit()

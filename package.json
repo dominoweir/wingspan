@@ -1,10 +1,28 @@
 {
-  "name": "my-project-name",
-  "version": "0.1.0",
-  "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-uglify": "~0.5.0"
-  }
+  "name": "wingspan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "nodejs": "^0.0.0",
+    "python-shell": "^0.4.0",
+    "angular": "^1.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "python test/testAll.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dominoweir/wingspan.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dominoweir/wingspan/issues"
+  },
+  "homepage": "https://github.com/dominoweir/wingspan#readme"
 }

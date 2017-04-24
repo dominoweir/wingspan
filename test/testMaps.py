@@ -16,7 +16,7 @@ xpaths = { 'usernameTxtBox' : "//input[@name='username']",
            'submitButton' :   "//input[@name='login']"
          }
 
-mydriver = webdriver.Firefox()
+mydriver = webdriver.Chrome()
 mydriver.get(baseurl)
 mydriver.maximize_window()
 
