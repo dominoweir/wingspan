@@ -13,7 +13,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "python test/testAll.py"
+    "test": "python test/testAll.py",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
