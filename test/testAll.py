@@ -1,5 +1,6 @@
 import os
 import testForm
+import testMaps
 
 # clear existing output files
 try:
@@ -22,6 +23,18 @@ actualText = actual.read()
 
 if (expectedText != actualText):
     print("Form submission test failed")
+
+
+# run form submission with testForm.py
+testMaps.run()
+expected = open("mapsExpected.txt", 'r')
+actual = open("mapsActual.txt",'r')
+
+expectedText = expected.read()
+actualText = actual.read()
+
+if (expectedText != actualText):
+    print("Maps test failed")
 
 expected.close()
 actual.close()
