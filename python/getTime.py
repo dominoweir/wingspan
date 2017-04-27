@@ -1,4 +1,5 @@
 import urllib
+import sys
 import json as simplejson
 import googlemaps
 from flask import Flask, jsonify, render_template, request
@@ -7,10 +8,18 @@ app = Flask(__name__)
 @app.route('/get_time')
 def getTotalTime():
     timeArray = []
+    parsed = []
+
+    # check for arguments
+    if(len(sys.argv) > 0):
+        longString = sys.argv[0]
+        print(longString)
+        parsed = longString.split(',')
 
     # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
-    longString = request.args.get('stringified', 0, type=str)
-    parsed = longString.split(',')
+    else:
+        longString = request.args.get('stringified', 0, type=str)
+        parsed = longString.split(',')
 
     # break down input to individual variables
     flight = parsed[1]
@@ -37,5 +46,4 @@ def getTotalTime():
     timeArray.append(str(flightTime))
 
     simplejson.dumps(str(timeArray))
-    print(str(timeArray))
     return jsonify(result=str(timeArray))

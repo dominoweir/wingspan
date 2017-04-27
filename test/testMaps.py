@@ -31,3 +31,5 @@ def run():
         results.write("Test 3 passed.\n")
     else:
         results.write("Test 3 failed, result was: " + str(test3))
+
+    results.close()
