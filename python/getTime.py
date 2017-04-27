@@ -22,8 +22,6 @@ def getTravelTime(address, airport):
     driveTime = result['rows'][0]['elements'][0]['duration']['value']
     return driveTime
 
-def getAirlineInfo(flight):
-
 @app.route('/get_time')
 def getTotalTime():
     timeArray = []
@@ -57,4 +55,5 @@ def getTotalTime():
     timeArray.append(str(flightTime))
 
     simplejson.dumps(str(timeArray))
+    print(str(timeArray))
     return jsonify(result=str(timeArray))
