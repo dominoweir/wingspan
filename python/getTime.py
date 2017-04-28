@@ -3,18 +3,17 @@ import sys
 import json as simplejson
 import googlemaps
 from flask import Flask, jsonify, render_template, request
+from getTravelTime import getTravelTime
 app = Flask(__name__)
 
 
 @app.route('/get_time')
-def getTotalTime():
+def getTotalTime(longString = ""):
     timeArray = []
     parsed = []
 
     # check for arguments
-    if(len(sys.argv) > 0):
-        longString = sys.argv[0]
-        print(longString)
+    if(longString != ""):
         parsed = longString.split(',')
 
     # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
@@ -30,15 +29,15 @@ def getTotalTime():
     kids = parsed[7]
 
     # flight status API- get airport location and flight departure time
-    airport, flightTime = getAirlineInfo(flight)
+    #airport, flightTime = getAirlineInfo(flight)
 
-    driveTime = getTravelTime(parsedAddress, airport) / 60;
+    driveTime = getTravelTime(parsedAddress, "Austin Bergstrom International Airport") / 60;
     timeArray.append(driveTime)
 
     if(timing == 'early'):
-        timeArray.append(30)
+        timeArray.append(40)
     else:
-        timeArray.append(10)
+        timeArray.append(20)
 
     if(kids == 'yes'):
         for i in timeArray:

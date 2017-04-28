@@ -1,6 +1,7 @@
 import os
 import testForm
 import testMaps
+import testTime
 
 # clear existing output files
 try:
@@ -24,8 +25,7 @@ actualText = actual.read()
 if (expectedText != actualText):
     print("Form submission test failed")
 
-
-# run form submission with testForm.py
+# run form submission with testMaps.py
 testMaps.run()
 expected = open("mapsExpected.txt", 'r')
 actual = open("mapsActual.txt",'r')
@@ -38,3 +38,17 @@ if (expectedText != actualText):
 
 expected.close()
 actual.close()
+
+# run form submission with testTime.py
+testTime.run()
+#expected = open("timeExpected.txt", 'r')
+#actual = open("timeActual.txt",'r')
+
+#expectedText = expected.read()
+#actualText = actual.read()
+
+#if (expectedText != actualText):
+#    print("Timing test failed")
+
+#expected.close()
+#actual.close()
