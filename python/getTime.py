@@ -4,6 +4,7 @@ import json as simplejson
 import googlemaps
 from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
+from getFlightStatus import HTTPTransport
 app = Flask(__name__)
 
 
@@ -12,6 +13,9 @@ def getTotalTime(longString = ""):
     timeArray = []
     parsed = []
     isTesting = False
+
+    # to call a method from this class, basically do flightInstance.run() or .call() etc. 
+    flightInstance = HTTPTransport()
 
     # check for arguments
     if(longString != ""):
@@ -31,7 +35,7 @@ def getTotalTime(longString = ""):
     kids = parsed[7]
 
     # flight status API- get airport location and flight departure time
-    #airport, flightTime = getAirlineInfo(flight)
+    airport, flightTime = call()
 
     driveTime = getTravelTime(parsedAddress, "Austin Bergstrom Airport") / 60;
     timeArray.append(driveTime)

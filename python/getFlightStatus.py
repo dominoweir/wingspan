@@ -28,15 +28,20 @@ class MyHTTPTransport(HTTPTransport):
         return HTTPTransport.call(self, addr, data, namespace, soapaction, encoding, http_proxy, config)
 
 
-# Make a FlightXML server request.
-MyHTTPTransport.setAuthentication(username, apiKey)
-DF = WSDL.Proxy(wsdlFile, transport=MyHTTPTransport)
+    def run():
+        logging.basicConfig(level=logging.INFO)
+        api = Client(url, username=username, password=apiKey)
+        #print api
 
-enroute = DF.Enroute('KSMO', 10, '', 0)
+        # Get the weather
+        result = api.service.Metar('KAUS')
+        print result
 
-flights = enroute['enroute']
+        # Get the flights enroute
+        result = api.service.Enroute('KSMO', 10, '', 0)
+        flights = result['enroute']
 
-print "Aircraft en route to KSMO:"
-for flight in flights:
-    print "%s (%s) \t%s (%s)" % (flight['ident'], flight['aircrafttype'],
-                                 flight['originName'], flight['origin'])
+        print "Aircraft en route to KSMO:"
+        for flight in flights:
+            print "%s (%s) \t%s (%s)" % ( flight['ident'], flight['aircrafttype'],
+                                          flight['originName'], flight['origin'])
