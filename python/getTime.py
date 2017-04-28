@@ -10,10 +10,12 @@ app = Flask(__name__)
 def getTotalTime(longString = ""):
     timeArray = []
     parsed = []
+    isTesting = False
 
     # check for arguments
     if(longString != ""):
         parsed = longString.split(',')
+        isTesting = True
 
     # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
     else:
@@ -30,7 +32,7 @@ def getTotalTime(longString = ""):
     # flight status API- get airport location and flight departure time
     #airport, flightTime = getAirlineInfo(flight)
 
-    driveTime = getTravelTime(parsedAddress, "Austin Bergstrom International Airport") / 60;
+    driveTime = getTravelTime(parsedAddress, "Austin Bergstrom Airport") / 60;
     timeArray.append(driveTime)
 
     if(timing == 'early'):
@@ -42,7 +44,10 @@ def getTotalTime(longString = ""):
         for i in timeArray:
             timeArray[i] = timeArray[i] * 2
 
-    timeArray.append(str(flightTime))
+    # timeArray.append(str(flightTime))
 
-    simplejson.dumps(str(timeArray))
-    return jsonify(result=str(timeArray))
+    if isTesting:
+        return str(timeArray)
+    else:
+        simplejson.dumps(str(timeArray))
+        return jsonify(result=str(timeArray))
