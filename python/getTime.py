@@ -6,6 +6,7 @@ from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
 app = Flask(__name__)
 
+
 @app.route('/get_time')
 def getTotalTime(longString = ""):
     timeArray = []
