@@ -14,6 +14,11 @@ try:
 except OSError:
     pass
 
+try:
+    os.remove("timeActual.txt")
+except OSError:
+    pass
+
 # run form submission with testForm.py
 testForm.run()
 expected = open("formExpected.txt", 'r')
@@ -41,14 +46,14 @@ actual.close()
 
 # run form submission with testTime.py
 testTime.run()
-#expected = open("timeExpected.txt", 'r')
-#actual = open("timeActual.txt",'r')
+expected = open("timeExpected.txt", 'r')
+actual = open("timeActual.txt",'r')
 
-#expectedText = expected.read()
-#actualText = actual.read()
+expectedText = expected.read()
+actualText = actual.read()
 
-#if (expectedText != actualText):
-#    print("Timing test failed")
+if (expectedText != actualText):
+    print("Timing test failed")
 
-#expected.close()
-#actual.close()
+expected.close()
+actual.close()

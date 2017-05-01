@@ -17,9 +17,6 @@ def getTotalTime(longString=""):
     parsed = []
     isTesting = False
 
-    # to call a method from this class, basically do flightInstance.run() or .call() etc. 
-
-
     # check for arguments
     if (longString != ""):
         parsed = longString.split(',')
@@ -38,17 +35,12 @@ def getTotalTime(longString=""):
     kids = parsed[7]
 
     # flight status API- get airport location and flight departure time
-
     FlightInfo = getFlightInfo(flight)
-
     now = datetime.datetime.now()
-
     currentTime = (now - datetime.datetime(1970, 1, 1)).total_seconds()
-
     timeBeforeFlight = FlightInfo.actualDepartureTime - currentTime
 
     #FlightInfo.orgin returns the ICOA code for the departure airport
-
     driveTime = getTravelTime(parsedAddress, FlightInfo.origin) / 60
 
     timeArray.append(driveTime)
@@ -67,11 +59,8 @@ def getTotalTime(longString=""):
             estimatedTime = + timeArray[i]
 
     estimatedTime = int(estimatedTime)
-
     estimatedTime = estimatedTime*60
-
     timeBeforeLeave = timeBeforeFlight - estimatedTime
-
     returnArray = [timeBeforeLeave]
 
     print "%s" % (returnArray[i])
@@ -81,4 +70,3 @@ def getTotalTime(longString=""):
     else:
         simplejson.dumps(str(returnArray))
         return jsonify(result=str(returnArray))
-
