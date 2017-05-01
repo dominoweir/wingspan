@@ -4,21 +4,24 @@ import json as simplejson
 import googlemaps
 from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
-from getFlightStatus import HTTPTransport
+from FlightInfo import getFlightInfo
+import time
+import datetime
+
 app = Flask(__name__)
 
 
 @app.route('/get_time')
-def getTotalTime(longString = ""):
+def getTotalTime(longString=""):
     timeArray = []
     parsed = []
     isTesting = False
 
     # to call a method from this class, basically do flightInstance.run() or .call() etc. 
-    flightInstance = HTTPTransport()
+
 
     # check for arguments
-    if(longString != ""):
+    if (longString != ""):
         parsed = longString.split(',')
         isTesting = True
 
@@ -30,29 +33,52 @@ def getTotalTime(longString = ""):
     # break down input to individual variables
     flight = parsed[1]
     address = parsed[3]
-    parsedAddress = address.replace('%2C',',')
+    parsedAddress = address.replace('%2C', ',')
     timing = parsed[5]
     kids = parsed[7]
 
     # flight status API- get airport location and flight departure time
-    airport, flightTime = call()
 
-    driveTime = getTravelTime(parsedAddress, "Austin Bergstrom Airport") / 60;
+    FlightInfo = getFlightInfo(flight)
+
+    now = datetime.datetime.now()
+
+    currentTime = (now - datetime.datetime(1970, 1, 1)).total_seconds()
+
+    timeBeforeFlight = FlightInfo.actualDepartureTime - currentTime
+
+    #FlightInfo.orgin returns the ICOA code for the departure airport
+
+    driveTime = getTravelTime(parsedAddress, FlightInfo.origin) / 60
+
     timeArray.append(driveTime)
 
-    if(timing == 'early'):
+    if (timing == 'early'):
         timeArray.append(40)
     else:
         timeArray.append(20)
 
-    if(kids == 'yes'):
+    if (kids == 'yes'):
         for i in timeArray:
             timeArray[i] = timeArray[i] * 2
 
-    # timeArray.append(str(flightTime))
+    for i in timeArray:
+
+            estimatedTime = + timeArray[i]
+
+    estimatedTime = int(estimatedTime)
+
+    estimatedTime = estimatedTime*60
+
+    timeBeforeLeave = timeBeforeFlight - estimatedTime
+
+    returnArray = [timeBeforeLeave]
+
+    print "%s" % (returnArray[i])
 
     if isTesting:
-        return str(timeArray)
+        return str(returnArray)
     else:
-        simplejson.dumps(str(timeArray))
-        return jsonify(result=str(timeArray))
+        simplejson.dumps(str(returnArray))
+        return jsonify(result=str(returnArray))
+

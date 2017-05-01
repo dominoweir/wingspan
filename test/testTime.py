@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0,"/Users/dominoweir/Documents/wingspan/python")
+sys.path.insert(0,"/Users/nickwhite/Documents/wingspan/python")
 from getTime import getTotalTime
 
 def run():
