@@ -2,7 +2,7 @@ import urllib
 import sys
 import json as simplejson
 import googlemaps
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, session
 from getTravelTime import getTravelTime
 from FlightInfo import getFlightInfo
 import time
@@ -11,7 +11,7 @@ import datetime
 app = Flask(__name__)
 
 
-@app.route('/get_time')
+@app.route('/get_time', methods=["POST"])
 def getTotalTime(longString=""):
     timeArray = []
     parsed = []
@@ -24,7 +24,7 @@ def getTotalTime(longString=""):
 
     # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
     else:
-        longString = request.args.get('stringified', 0, type=str)
+        longString = request.get('stringified', 0, type=str)
         parsed = longString.split(',')
 
     # break down input to individual variables
@@ -61,12 +61,11 @@ def getTotalTime(longString=""):
     estimatedTime = int(estimatedTime)
     estimatedTime = estimatedTime*60
     timeBeforeLeave = timeBeforeFlight - estimatedTime
-    returnArray = [timeBeforeLeave]
 
-    print "%s" % (returnArray[i])
+    print str(timeBeforeLeave)
 
     if isTesting:
-        return str(returnArray)
+        return str(timeBeforeLeave)
     else:
         simplejson.dumps(str(returnArray))
-        return jsonify(result=str(returnArray))
+        return jsonify(result = timeBeforeLeave, start = address, end = FlightInfo.origin)

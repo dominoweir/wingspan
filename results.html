@@ -31,11 +31,10 @@
           var timeArray = '';
           $.getJSON($SCRIPT_ROOT + '/get_time', {
             stringified: $(formString).val()
-            }, function(data) {
-              alert(timeArray);
-              timeArray = data;
+            }, function() {
+              document.getElementById("result_minutes").innerHTML = str(data.result);
+              // you can also use data.start and data.end as the addresses to generate a map
           });
-
         </script>
 
       <div class="container-fluid">
@@ -44,14 +43,9 @@
 
       		<div class="col-md-12">
       			<h1 class="text-center text-info": style="margin-top: 100px;">You should leave in...</h1>
-
-            <div class="container">
-              <div class="progress"; style="margin-top: 20px; margin-bottom: 30px; height: 75px;">
-                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"; style="width:70%; vertical-align: middle;">
-                  <h1><strong>18 MINUTES</strong></h1>
-                </div>
+              <div class="container">
+                <h1 class="text-center" id="result_minutes" name="result_minutes">?</h1>
               </div>
-            </div>
 
       			<div class="row">
 
@@ -96,12 +90,6 @@
       				</div>
 
       			</div>
-
-            <div class="row">
-		          <div class="col-md-7">
-                <button type="button" class="btn btn-primary btn-lg btn-block"; style="margin-left: 200px; margin-right: 200px; margin-bottom: 50px;"><strong>Get Directions</strong></button>
-              </div>
-            </div>
 
       		</div>
       	</div>
