@@ -3,6 +3,8 @@ import os.path
 import urllib
 import googlemaps
 
+sys.path.insert(0,"/Users/dominoweir/Documents/wingspan/python")
+
 from getTravelTime import getTravelTime
 
 
