@@ -1,10 +1,12 @@
 import sys
 from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
-from FlightInfo import getFlightInfo
 import datetime
+from getFlightStatus import getFlightInfo
 
 app = Flask(__name__)
+
+testString = "q1,8141,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no"
 
 @app.route('/get_time')
 def getTotalTime(longString=""):
@@ -34,14 +36,14 @@ def getTotalTime(longString=""):
     kids = parsed[7]
 
     # flight status API- get airport location and flight departure time
-    FlightInfo = getFlightInfo(flight)
-    print(FlightInfo)
+    flightInfo = getFlightInfo(flight)
+    print(flightInfo)
     now = datetime.datetime.now()
     currentTime = (now - datetime.datetime(1970, 1, 1)).total_seconds()
-    timeBeforeFlight = FlightInfo.actualDepartureTime - currentTime
+    timeBeforeFlight = flightInfo.actualDepartureTime - currentTime
 
     #FlightInfo.orgin returns the ICOA code for the departure airport
-    driveTime = getTravelTime(parsedAddress, FlightInfo.origin) / 60
+    driveTime = getTravelTime(parsedAddress, flightInfo.origin) / 60
     estimatedTime = driveTime
 
     if (timing == 'early'):
