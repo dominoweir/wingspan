@@ -9,24 +9,23 @@ url = 'http://flightxml.flightaware.com/soap/FlightXML2/wsdl'
 logging.basicConfig(level=logging.INFO)
 api = Client(url, username=username, password=apiKey)
 
-# print api
-
+"""
 # Get the weather
 result = api.service.Metar('KAUS')
 print result
+"""
 
 # Get the flights enroute
 result = api.service.Enroute('KSMO', 10, '', 0)
 flights = result['enroute']
-
+"""
 print "Aircraft en route to KSMO:"
 for flight in flights:
     print "%s (%s) \t%s (%s)" % (flight['ident'], flight['aircrafttype'],
                                  flight['originName'], flight['origin'])
-
+"""
 
 def getFlightInfo(flightNumber):
     # type: (object) -> object
     flightInfo = api.service.FlightInfoEx(flightNumber, 1, 0)
-
     return flightInfo

@@ -1,9 +1,6 @@
 import urllib
 import json as simplejson
 import googlemaps
-from flask import Flask, jsonify, render_template, request
-
-app = Flask(__name__)
 
 gmaps = googlemaps.Client('AIzaSyByNrotEcmJr9KlyPK8qQqxyxrt9_2RH9Y')
 

@@ -1,19 +1,15 @@
-import urllib
 import sys
-import json as simplejson
-import googlemaps
-from flask import Flask, jsonify, render_template, request, session
+from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
 from FlightInfo import getFlightInfo
-import time
 import datetime
 
 app = Flask(__name__)
 
-
-@app.route('/get_time', methods=["POST"])
+@app.route('/get_time')
 def getTotalTime(longString=""):
-    timeArray = []
+    print(longString)
+    estimatedTime = 0
     parsed = []
     isTesting = False
 
@@ -27,6 +23,9 @@ def getTotalTime(longString=""):
         longString = request.get('stringified', 0, type=str)
         parsed = longString.split(',')
 
+    print(isTesting)
+    print(parsed)
+
     # break down input to individual variables
     flight = parsed[1]
     address = parsed[3]
@@ -36,36 +35,29 @@ def getTotalTime(longString=""):
 
     # flight status API- get airport location and flight departure time
     FlightInfo = getFlightInfo(flight)
+    print(FlightInfo)
     now = datetime.datetime.now()
     currentTime = (now - datetime.datetime(1970, 1, 1)).total_seconds()
     timeBeforeFlight = FlightInfo.actualDepartureTime - currentTime
 
     #FlightInfo.orgin returns the ICOA code for the departure airport
     driveTime = getTravelTime(parsedAddress, FlightInfo.origin) / 60
-
-    timeArray.append(driveTime)
+    estimatedTime = driveTime
 
     if (timing == 'early'):
-        timeArray.append(40)
+        estimatedTime += 40
     else:
-        timeArray.append(20)
+        estimatedTime += 20
 
     if (kids == 'yes'):
-        for i in timeArray:
-            timeArray[i] = timeArray[i] * 2
+        estimatedTime *= 1.5
 
-    for i in timeArray:
-
-            estimatedTime = + timeArray[i]
-
-    estimatedTime = int(estimatedTime)
     estimatedTime = estimatedTime*60
     timeBeforeLeave = timeBeforeFlight - estimatedTime
 
-    print str(timeBeforeLeave)
+    print(timeBeforeLeave)
 
     if isTesting:
         return str(timeBeforeLeave)
     else:
-        simplejson.dumps(str(returnArray))
         return jsonify(result = timeBeforeLeave, start = address, end = FlightInfo.origin)
