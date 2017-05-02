@@ -23,19 +23,22 @@ print "Aircraft en route to KAUS:"
 
 # flightInfo = api.service.FlightInfoEx()
 
+
+# testing for api
+
 flightInfo = api.service.FlightInfoEx('SWA1745', 1, 0)
 
-
+#print testing
 returnedFlight = flightInfo['flights']
 
 for flight in returnedFlight:
-    print "%s" % flight['filed departureTime']
+    print "%s" % flight['filed_departuretime']
 
 
 for flight in flights:
     print "%s (%s) \t%s (%s)" % (flight['ident'], flight['aircrafttype'],
                                  flight['originName'], flight['origin'])
-
+#end of print testing
 
 def getFlightInfo(flightNumber):
     # type: (object) -> object

@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 testString = "q1,8141,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no"
 
+
 @app.route('/get_time')
 def getTotalTime(longString=""):
     print(longString)
@@ -16,7 +17,7 @@ def getTotalTime(longString=""):
     isTesting = False
 
     # check for arguments
-    if (longString != ""):
+    if longString != "":
         parsed = longString.split(',')
         isTesting = True
 
@@ -42,19 +43,19 @@ def getTotalTime(longString=""):
     currentTime = (now - datetime.datetime(1970, 1, 1)).total_seconds()
     timeBeforeFlight = flightInfo.actualDepartureTime - currentTime
 
-    #FlightInfo.orgin returns the ICOA code for the departure airport
+    # FlightInfo.orgin returns the ICOA code for the departure airport
     driveTime = getTravelTime(parsedAddress, flightInfo.origin) / 60
     estimatedTime = driveTime
 
-    if (timing == 'early'):
+    if timing == 'early':
         estimatedTime += 40
     else:
         estimatedTime += 20
 
-    if (kids == 'yes'):
+    if kids == 'yes':
         estimatedTime *= 1.5
 
-    estimatedTime = estimatedTime*60
+    estimatedTime = estimatedTime * 60
     timeBeforeLeave = timeBeforeFlight - estimatedTime
 
     print(timeBeforeLeave)
@@ -62,4 +63,4 @@ def getTotalTime(longString=""):
     if isTesting:
         return str(timeBeforeLeave)
     else:
-        return jsonify(result = timeBeforeLeave, start = address, end = FlightInfo.origin)
+        return jsonify(result=timeBeforeLeave, start=address, end=FlightInfo.origin)
