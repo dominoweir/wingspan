@@ -23,14 +23,13 @@
                   type: 'POST',
                   url: "python/getTime.py",
                   data: {form: formString},
-                  dataType: "utf-8",
                   success: function(response){
                      output = response;
                      alert(output);
                   }
           }).done(function(data){
               console.log(data);
-              alert(data);
+              alert(data.result);
               document.getElementById('result_minutes').innerHTML = data.result;
           });
 
