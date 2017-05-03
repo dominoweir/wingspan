@@ -1,19 +1,15 @@
-import sys
 from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
 from getFlightStatus import getFlightInfo
-import datetime
 from getFlightStatus import getFlightTime
 import time
+import cgi, cgitb
 
-app = Flask(__name__)
-
-testString = "q1,8141,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no,q5,KAUS"
-
-
-@app.route('/get_time')
 def getTotalTime(longString=""):
-    print(longString)
+
+    data= cgi.FieldStorage()
+    form = data["form"]
+
     estimatedTime = 0
     parsed = []
     isTesting = False
@@ -25,11 +21,8 @@ def getTotalTime(longString=""):
 
     # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
     else:
-        longString = request.get('stringified', 0, type=str)
+        longString = str(form)
         parsed = longString.split(',')
-
-    print(isTesting)
-    print(parsed)
 
     # break down input to individual variables
     flight = parsed[1]
@@ -64,8 +57,6 @@ def getTotalTime(longString=""):
     estimatedTime = estimatedTime * 60
     timeBeforeLeave = timeBeforeFlight - estimatedTime
 
-    print(timeBeforeLeave)
-
     if isTesting:
         return str(timeBeforeLeave)
     else:
@@ -73,3 +64,6 @@ def getTotalTime(longString=""):
                        departure=time.strftime('%H:%M:%S', time.localtime(currentFlight['filed_departuretime'])),
                        arrival=time.strftime('%H:%M:%S', time.localtime(currentFlight['estimatedarrivaltime'])),
                        destination=currentFlight['destination'])
+
+
+getTotalTime()

@@ -5,19 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <link rel="icon" href="~/Documents/bootstrap-3.3.7/docs/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="jquery-3.2.1.min.js"></script>
     <title>Wingspan</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="~/Documents/bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" type="text/css" href="css/main.css" />
-
-
-
   </head>
 
   <body>
@@ -28,17 +19,21 @@
 
         <script>
           var formString = sessionStorage.getItem('response');
-          var timeArray = '';
-          $.getJSON($SCRIPT_ROOT + '/get_time', {
-            stringified: $(formString).val()
-          }, function(JSON_array) {
-              // result, start, end, departure, arrival, destination
-              data = JSON.parse(JSON_array)["array"];
+          $.ajax({
+                  type: 'POST',
+                  url: "python/getTime.py",
+                  data: {form: formString},
+                  dataType: "text",
+                  success: function(response){
+                     output = response;
+                     alert(output);
+                  }
+          }).done(function(data){
+              console.log(data);
               alert(data);
-              document.getElementById("result_minutes").innerHTML = str(data[0]);
-              //document.getElementById("departure").innerHTML = str(data.d);
-
+              document.getElementById('result_minutes').innerHTML = data.result;
           });
+
         </script>
 
       <div class="container-fluid">
@@ -65,28 +60,6 @@
       				</div>
 
       			</div>
-
-            <script>
-            var element = document.getElementById("timeleftid");
-            element.innerHTML = "New Header";
-            </script>
-
-            <script>
-                var = timeLeft;
-
-                function getTimeLeftPercent() {
-                    if (var > 60) {
-                      return "100%";
-                    }
-                    else {
-                      return (1 - var / 60) * 100;
-                    }
-                }
-            </script>
-            <script>
-                var x = getData("Flight Number");
-                document.getElementById("demo").innerHTML = x;
-            </script>
 
       			<div class="row">
 
@@ -142,35 +115,9 @@
     </div>
 
 
-    <script>
-      var formString = sessionStorage.getItem('response');
-      var timeArray = '';
-      var flightnum = "AA 2255";
-      $.getJSON($SCRIPT_ROOT + '/get_time', {
-        stringified: $(formString).val()
-      } ,
-      function(data) {
-        document.getElementById("demo").innerHTML = "x";
-        alert(timeArray);
-        timeArray = data;
-        function getData(dataType) {
-          document.getElementById("demo").innerHTML = "x";
-          if (dataType == "Flight Number") {
-            return flightnum;
-          }
-        }
-      }
-    );
-
-    );
-    </script>
-
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="~/Documents/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>
