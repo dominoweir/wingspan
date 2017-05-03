@@ -60,7 +60,7 @@ def getTotalTime(longString=""):
     if isTesting:
         return str(timeBeforeLeave)
     else:
-        return jsonify(result=timeBeforeLeave, start=address, end=departAirport,
+        return json.dumps(result=timeBeforeLeave, start=address, end=departAirport,
                        departure=time.strftime('%H:%M:%S', time.localtime(currentFlight['filed_departuretime'])),
                        arrival=time.strftime('%H:%M:%S', time.localtime(currentFlight['estimatedarrivaltime'])),
                        destination=currentFlight['destination'])
