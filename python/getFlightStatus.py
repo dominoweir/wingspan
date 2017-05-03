@@ -1,5 +1,8 @@
 import logging
 
+import time
+
+import datetime
 from suds.client import Client
 
 username = 'whitenicholas'
@@ -9,11 +12,9 @@ url = 'http://flightxml.flightaware.com/soap/FlightXML2/wsdl'
 logging.basicConfig(level=logging.INFO)
 api = Client(url, username=username, password=apiKey)
 
-
 # Get the weather
 result = api.service.Metar('KAUS')
 print result
-
 
 # Get the flights enroute
 result = api.service.Enroute('KAUS', 10, '', 0)
@@ -26,21 +27,58 @@ print "Aircraft en route to KAUS:"
 
 # testing for api
 
-flightInfo = api.service.FlightInfoEx('SWA1745', 1, 0)
+flightInfo = api.service.FlightInfoEx('FDX741', 10, 0)
 
-#print testing
+print "%s" % flightInfo['flights'][0]['origin']
+# print testing
 returnedFlight = flightInfo['flights']
 
-for flight in returnedFlight:
-    print "%s" % flight['filed_departuretime']
+validFlights = []
 
+for valid in returnedFlight:
+    flightTime = valid['filed_departuretime']
+    currentStamp = time.strftime('%m-%d', time.localtime(flightTime))
+    validTime = time.strftime('%m-%d', time.localtime(time.time()))
+    if currentStamp == validTime:
+        if valid['origin'] == 'KMEM':
+            returnTime = flightTime
+            print "%s" % time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(returnTime))
+            print "%s" % valid['origin']
+
+for flight in returnedFlight:
+    if flight['origin'] == 'KMEM':
+        flightTime = flight['filed_departuretime']
+        print "%s" % flight['filed_departuretime']
+        print "%s" % time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(flightTime))
 
 for flight in flights:
     print "%s (%s) \t%s (%s)" % (flight['ident'], flight['aircrafttype'],
                                  flight['originName'], flight['origin'])
-#end of print testing
 
-def getFlightInfo(flightNumber):
-    # type: (object) -> object
-    flightInfo = api.service.FlightInfoEx(flightNumber, 1, 0)
-    return flightInfo
+
+# end of print testing
+
+
+
+
+
+
+def getFlightTime(flightNumber, departAirport):
+
+    returnArray = []
+
+    flightNotice = api.service.FlightInfoEx(str(flightNumber), 1, 0)
+
+    currentPlans = flightNotice['flights']
+
+    for validPlans in currentPlans:
+        timing = validPlans['filed_departuretime']
+        currentTiming = time.strftime('%m-%d', time.localtime(timing))
+        validTiming = time.strftime('%m-%d', time.localtime(time.time()))
+        if currentTiming == validTiming:
+            if validPlans['origin'] == str(departAirport):
+                returnArray.append(validPlans)
+                returnArray.append(timing)
+
+    return returnArray
+
