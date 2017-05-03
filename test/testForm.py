@@ -30,7 +30,7 @@ def run():
     driver = webdriver.Chrome()
     driver.get(baseurl)
     driver.maximize_window()
-    results = open("formActual.txt", 'w')
+    results = open("results/formActual.txt", 'w')
 
     # write sample data in to text boxes
     driver.find_element_by_xpath(xpaths['flightNumber']).send_keys(flightNumber)

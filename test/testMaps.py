@@ -9,7 +9,7 @@ from getTravelTime import getTravelTime
 
 
 def run():
-    results = open("mapsActual.txt", 'w')
+    results = open("results/mapsActual.txt", 'w')
 
     startAddress = "Star Bar West 6th Street Austin TX United States"
     endAddress = "Austin Bergstrom International Airport"

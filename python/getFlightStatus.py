@@ -1,5 +1,4 @@
 import logging
-
 from suds.client import Client
 
 username = 'whitenicholas'

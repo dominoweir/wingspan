@@ -1,7 +1,7 @@
 import sys
 from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
-from FlightInfo import getFlightInfo
+from getFlightStatus import getFlightInfo
 import datetime
 
 app = Flask(__name__)
