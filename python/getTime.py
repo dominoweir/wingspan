@@ -3,8 +3,13 @@ from flask import Flask, jsonify, render_template, request
 from getTravelTime import getTravelTime
 from getFlightStatus import getFlightInfo
 import datetime
+from getFlightStatus import getFlightTime
+import time
 
 app = Flask(__name__)
+
+testString = "q1,8141,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no"
+
 
 @app.route('/get_time')
 def getTotalTime(longString=""):
@@ -14,7 +19,7 @@ def getTotalTime(longString=""):
     isTesting = False
 
     # check for arguments
-    if (longString != ""):
+    if longString != "":
         parsed = longString.split(',')
         isTesting = True
 
@@ -32,27 +37,31 @@ def getTotalTime(longString=""):
     parsedAddress = address.replace('%2C', ',')
     timing = parsed[5]
     kids = parsed[7]
+    departAirport = parsed[9]
 
     # flight status API- get airport location and flight departure time
-    FlightInfo = getFlightInfo(flight)
-    print(FlightInfo)
-    now = datetime.datetime.now()
-    currentTime = (now - datetime.datetime(1970, 1, 1)).total_seconds()
-    timeBeforeFlight = FlightInfo.actualDepartureTime - currentTime
+    # returns an array with flight object in first element and departure time in second element
+    flightInfo = getFlightTime(flight, departAirport)
 
-    #FlightInfo.orgin returns the ICOA code for the departure airport
-    driveTime = getTravelTime(parsedAddress, FlightInfo.origin) / 60
+    # time calculation
+    currentFlight = flightInfo[0]
+
+    currentTime = time.time()
+    timeBeforeFlight = int(flightInfo[1]) - currentTime
+
+    # FlightInfo.orgin returns the ICOA code for the departure airport
+    driveTime = getTravelTime(parsedAddress, flightInfo.origin) / 60
     estimatedTime = driveTime
 
-    if (timing == 'early'):
+    if timing == 'early':
         estimatedTime += 40
     else:
         estimatedTime += 20
 
-    if (kids == 'yes'):
+    if kids == 'yes':
         estimatedTime *= 1.5
 
-    estimatedTime = estimatedTime*60
+    estimatedTime = estimatedTime * 60
     timeBeforeLeave = timeBeforeFlight - estimatedTime
 
     print(timeBeforeLeave)
@@ -60,4 +69,7 @@ def getTotalTime(longString=""):
     if isTesting:
         return str(timeBeforeLeave)
     else:
-        return jsonify(result = timeBeforeLeave, start = address, end = FlightInfo.origin)
+        return jsonify(result=timeBeforeLeave, start=address, end=departAirport,
+                       departure=time.strftime('%H:%M:%S', time.localtime(currentFlight['filed_departuretime'])),
+                       arrival=time.strftime('%H:%M:%S', time.localtime(currentFlight['estimatedarrivaltime'])),
+                       destination=currentFlight['destination'])
