@@ -8,7 +8,7 @@ import time
 
 app = Flask(__name__)
 
-testString = "q1,8141,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no"
+testString = "q1,8141,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no,q5,KAUS"
 
 
 @app.route('/get_time')
