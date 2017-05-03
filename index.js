@@ -9,7 +9,7 @@ var http = require('http');
 
     var filePath = '.' + request.url;
     if (filePath == './')
-        filePath = './html/index.html';
+        filePath = './index.html';
 
     console.log(filePath);
     var extname = path.extname(filePath);
