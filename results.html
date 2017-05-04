@@ -20,7 +20,7 @@
          <script>
            var formString = sessionStorage.getItem('response');
             $.ajax({
-                    type: 'GET',
+                    type: 'POST',
                     url: "python/getTime.py",
                     data: {form: formString},
                     contentType: "application/json; charset=utf-8"
@@ -80,7 +80,7 @@
                 <div class="col-md-6">
                   <div class="panel panel-info"; style="text-align: center; margin-right: 200px; margin-bottom: 20px; border: 0;">
                     <div class="panel-heading"; style="border-bottom: 0;">
-                      <h3 class="panel-title"; style="font-weight: bold; font-size: 200%;"></h3>
+                      <h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Arrival</h3>
                     </div>
                     <div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="arrival" name="arrival">?</div>
                      <div class="panel-body"; style="font-size: 150%; background-color: #f9f9f9;"></div>
