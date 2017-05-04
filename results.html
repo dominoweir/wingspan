@@ -1,135 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <link rel="icon" href="~/Documents/bootstrap-3.3.7/docs/favicon.ico">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>Wingspan</title>
+ <html lang="en">
+   <head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <script src="jquery-3.2.1.min.js"></script>
+     <title>Wingspan</title>
+     <link rel="stylesheet" type="text/css" href="css/main.css" />
+   </head>
 
-    <!-- Bootstrap core CSS -->
-    <link href="~/Documents/bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+   <body>
 
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
+     <div class="site-wrapper">
 
+       <div class="site-wrapper-inner">
 
+         <script>
+           var formString = sessionStorage.getItem('response');
+            $.ajax({
+                    type: 'POST',
+                    url: "python/getTime.py",
+ -                  data: {form: formString},
+ -                  success: function(response){
+ -                     output = response;
+ -                     alert(output);
+ -                  }
+ +                  data: {form: formString}
+            }).done(function(data){
+                console.log(data);
+                alert(data.result);
+               document.getElementById('result_minutes').innerHTML = data.result;
+           });
 
-  </head>
+         </script>
 
-  <body>
+         <div class="container-fluid">
 
-    <div class="site-wrapper">
+           <div class="row">
 
-      <div class="site-wrapper-inner">
+         		<div class="col-md-12">
+         			<h1 class="text-center text-info": style="margin-top: 100px;">You should leave in...</h1>
 
-        <script>
-          var formString = sessionStorage.getItem('response');
-          var timeArray = '';
-          $.getJSON($SCRIPT_ROOT + '/get_time', {
-            stringified: $(formString).val()
-          }, function(JSON_array) {
-              // result, start, end, departure, arrival, destination
-              data = JSON.parse(JSON_array)["array"];
-              alert(data);
-              document.getElementById("result_minutes").innerHTML = str(data[0]);
-              //document.getElementById("departure").innerHTML = str(data.d);
-              document.getElementById("flight_number").innerHTML = str(data[0]);
-              document.getElementById("departure").innerHTML = str(data[3]);
-              document.getElementById("arrival").innerHTML = str(data[4]);
+                 <div class="container">
+                   <h1 class="text-center" id="result_minutes" name="result_minutes">?</h1>
+                 </div>
 
-          });
-        </script>
+         			<div class="row">
 
-      <div class="container-fluid">
+         				<div class="col-md-12">
+         					<div class="panel panel-default"; style="text-align: center; margin-left: 200px; margin-right:200px;">
+         						<div class="panel-heading">
+         							<h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Flight</h3>
+                       <span class="glyphicon glyphicon-plane"; style="margin-top: 10px;"></span>
+                     </div>
+         						<div class="panel-body"; style="font-weight: bold; font-size: 150%;">
+                       <p id="flight_number" name="flight_number">?</p>
+                     </div>
+                   </div>
+         				</div>
 
-        <div class="row">
+         			</div>
 
-      		<div class="col-md-12">
-      			<h1 class="text-center text-info": style="margin-top: 100px;">You should leave in...</h1>
+         			<div class="row">
 
-              <div class="container">
-                <h1 class="text-center" id="result_minutes" name="result_minutes">?</h1>
-              </div>
+         				<div class="col-md-6">
+         					<div class="panel panel-info"; style="text-align: center; margin-left: 200px;; margin-bottom: 20px; border: 0;">
+         						<div class="panel-heading"; style="border-bottom: 0;">
+         							<h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Departure</h3>
+                     </div>
+         						<div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="departure" name="departure">?</div>
+                     <div class="panel-body"; style="bold; font-size: 150%; background-color: #f9f9f9">Terminal 1</div>
+                     <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;">Gate 12</div>
+         					</div>
+         				</div>
 
-      			<div class="row">
+         				<div class="col-md-6">
+         					<div class="panel panel-info"; style="text-align: center; margin-right: 200px; margin-bottom: 20px; border: 0;">
+         						<div class="panel-heading"; style="border-bottom: 0;">
+         							<h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Arrival</h3>
+         						</div>
+         						<div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="arrival" name="arrival">?</div>
+                     <div class="panel-body"; style="font-size: 150%; background-color: #f9f9f9;">Terminal B</div>
+                     <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;">Gate 4</div>
+         					</div>
+         				</div>
 
-      				<div class="col-md-12">
-      					<div class="panel panel-default"; style="text-align: center; margin-left: 200px; margin-right:200px;">
-      						<div class="panel-heading">
-      							<h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Flight</h3>
-                    <span class="glyphicon glyphicon-plane"; style="margin-top: 10px;"></span>
-                  </div>
-      						<div class="panel-body"; style="font-weight: bold; font-size: 150%;">
-                    <p id="flight_number" name="flight_number">?</p>
-                  </div>
-                </div>
-      				</div>
+         			</div>
 
-      			</div>
+         		</div>
+         	</div>
+         </div>
 
-      			<div class="row">
+           <div class="cover-container">
 
-      				<div class="col-md-6">
-      					<div class="panel panel-info"; style="text-align: center; margin-left: 200px;; margin-bottom: 20px; border: 0;">
-      						<div class="panel-heading"; style="border-bottom: 0;">
-      							<h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Departure</h3>
-                  </div>
-      						<div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="departure" name="departure">?</div>
-                  <div class="panel-body"; style="bold; font-size: 150%; background-color: #f9f9f9">Terminal 1</div>
-                  <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;">Gate 12</div>
-      					</div>
-      				</div>
+             <div class="masthead clearfix">
+               <div class="inner">
+                 <h3 class="masthead-brand"><a href="index.html">Wingspan</a></h3>
+                 <nav>
+                   <ul class="nav masthead-nav">
+                     <li><a href="login.html">Log In</a></li>
+                   </ul>
+                 </nav>
+               </div>
+             </div>
 
-      				<div class="col-md-6">
-      					<div class="panel panel-info"; style="text-align: center; margin-right: 200px; margin-bottom: 20px; border: 0;">
-      						<div class="panel-heading"; style="border-bottom: 0;">
-      							<h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Arrival</h3>
-      						</div>
-      						<div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="arrival" name="arrival">?</div>
-                  <div class="panel-body"; style="font-size: 150%; background-color: #f9f9f9;">Terminal B</div>
-                  <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;">Gate 4</div>
-      					</div>
-      				</div>
+             <div class = "inner cover">
 
-      			</div>
+             </div>
 
-      		</div>
-      	</div>
-      </div>
+           </div>
 
-        <div class="cover-container">
+         </div>
 
-          <div class="masthead clearfix">
-            <div class="inner">
-              <h3 class="masthead-brand"><a href="index.html">Wingspan</a></h3>
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li><a href="login.html">Log In</a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-
-          <div class = "inner cover">
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
+       </div>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="~/Documents/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
-  </body>
-</html>
+     <!-- Bootstrap core JavaScript
+     ================================================== -->
+     <!-- Placed at the end of the document so the pages load faster -->
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+     <script src="~/Documents/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+   </body>
+   </body>
+ </html>
