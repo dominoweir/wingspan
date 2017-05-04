@@ -47,7 +47,9 @@ if kids == 'yes':
 estimatedTime = estimatedTime * 60
 timeBeforeLeave = timeBeforeFlight - estimatedTime
 
-return json.dumps(result=timeBeforeLeave, start=address, end=departAirport,
+with open('data.json', 'w') as outfile:
+    outfile.truncate()
+    json.dumps({result=timeBeforeLeave, start=address, end=departAirport,
             departure=time.strftime('%H:%M:%S', time.localtime(currentFlight['filed_departuretime'])),
             arrival=time.strftime('%H:%M:%S', time.localtime(currentFlight['estimatedarrivaltime'])),
-            destination=currentFlight['destination'])
+            destination=currentFlight['destination']}, outfile)

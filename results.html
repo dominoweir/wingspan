@@ -28,14 +28,13 @@
                        alert(output);
                     }
             }).done(function(data){
-                console.log(data);
-                alert(data.result);
-                document.getElementById('result_minutes').innerHTML = data.result;
-                document.getElementById('flight_number').innerHTML = data.result;
-                document.getElementById('departure').innerHTML = data.departure;
-                document.getElementById('arrival').innerHTML = data.arrival;
+
            });
 
+           $.getJSON("data.json", function(json) {
+               console.log(json);
+               alert(json);
+           });
          </script>
 
          <div class="container-fluid">
