@@ -20,7 +20,7 @@
          <script>
            var formString = sessionStorage.getItem('response');
             $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: "python/getTime.py",
                     data: {form: formString},
                     contentType: "application/json; charset=utf-8"
