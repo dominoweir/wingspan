@@ -25,7 +25,10 @@
                     data: {form: formString},
                     contentType: "application/json; charset=utf-8"
             }).done(function(data){
-
+                document.getElementById('result_minutes').innerHTML = data.result;
+                document.getElementById('flight_number').innerHTML = data.flight;
+                document.getElementById('departure').innerHTML = data.departure;
+                document.getElementById('arrival').innerHTML = data.arrival;
            });
 
            $.getJSON("data.json", function(json) {
@@ -54,7 +57,7 @@
                        <span class="glyphicon glyphicon-plane"; style="margin-top: 10px;"></span>
                      </div>
                     <div class="panel-body"; style="font-weight: bold; font-size: 150%;">
-                       <p id="flight_number" name="flight_number">AA 2093</p>
+                       <p id="flight_number" name="flight_number"></p>
                      </div>
                    </div>
                 </div>
@@ -68,20 +71,20 @@
                     <div class="panel-heading"; style="border-bottom: 0;">
                       <h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Departure</h3>
                      </div>
-                    <div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="departure" name="departure">KAUS | 1:05 PM</div>
-                     <div class="panel-body"; style="bold; font-size: 150%; background-color: #f9f9f9">Terminal 1</div>
-                     <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;">Gate 15</div>
+                    <div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="departure" name="departure"></div>
+                     <div class="panel-body"; style="bold; font-size: 150%; background-color: #f9f9f9"></div>
+                     <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;"></div>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="panel panel-info"; style="text-align: center; margin-right: 200px; margin-bottom: 20px; border: 0;">
                     <div class="panel-heading"; style="border-bottom: 0;">
-                      <h3 class="panel-title"; style="font-weight: bold; font-size: 200%;">Arrival</h3>
+                      <h3 class="panel-title"; style="font-weight: bold; font-size: 200%;"></h3>
                     </div>
-                    <div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="arrival" name="arrival">KPHL | 5:27 PM</div>
-                     <div class="panel-body"; style="font-size: 150%; background-color: #f9f9f9;">Terminal C</div>
-                     <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;">Gate C17</div>
+                    <div class="panel-body"; style="font-weight: bold; font-size: 150%;" id="arrival" name="arrival"></div>
+                     <div class="panel-body"; style="font-size: 150%; background-color: #f9f9f9;"></div>
+                     <div class="panel-body"; style="font-size: 150%; background-color: #f4f4f4;"></div>
                   </div>
                 </div>
 
