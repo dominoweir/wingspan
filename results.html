@@ -23,8 +23,10 @@
                     type: 'POST',
                     url: "python/getTime.py",
                     data: {form: formString},
+                    contentType: "application/json; charset=utf-8",
                     success: function(response){
                        output = response;
+                       eval(response);
                        alert(output);
                     }
             }).done(function(data){
