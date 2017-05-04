@@ -26,7 +26,8 @@
                     contentType: "application/json; charset=utf-8",
                     success: function(response){
                        output = response;
-                       alert(eval(output));
+                       eval(response);
+                       alert(output);
                     }
             }).done(function(data){
                 console.log(data);
