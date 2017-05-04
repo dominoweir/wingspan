@@ -5,65 +5,49 @@ from getFlightStatus import getFlightTime
 import time
 import cgi, cgitb
 
-def getTotalTime(longString=""):
+data= cgi.FieldStorage()
+form = data["form"]
 
-    data= cgi.FieldStorage()
-    form = data["form"]
+estimatedTime = 0
+parsed = []
 
-    estimatedTime = 0
-    parsed = []
-    isTesting = False
+longString = str(form)
+parsed = longString.split(',')
 
-    # check for arguments
-    if longString != "":
-        parsed = longString.split(',')
-        isTesting = True
+# break down input to individual variables
+flight = parsed[1]
+address = parsed[3]
+parsedAddress = address.replace('%2C', ',')
+timing = parsed[5]
+kids = parsed[7]
+departAirport = parsed[9]
 
-    # example input: q1,3849657,q2,Star+Bar%2C+West+6th+Street%2C+Austin%2C+TX%2C+United+States,q3,early,q4,no
-    else:
-        longString = str(form)
-        parsed = longString.split(',')
+# flight status API- get airport location and flight departure time
+# returns an array with flight object in first element and departure time in second element
+flightInfo = getFlightTime(flight, departAirport)
 
-    # break down input to individual variables
-    flight = parsed[1]
-    address = parsed[3]
-    parsedAddress = address.replace('%2C', ',')
-    timing = parsed[5]
-    kids = parsed[7]
-    departAirport = parsed[9]
+# time calculation
+currentFlight = flightInfo[0]
 
-    # flight status API- get airport location and flight departure time
-    # returns an array with flight object in first element and departure time in second element
-    flightInfo = getFlightTime(flight, departAirport)
+currentTime = time.time()
+timeBeforeFlight = int(flightInfo[1]) - currentTime
 
-    # time calculation
-    currentFlight = flightInfo[0]
+# FlightInfo.orgin returns the ICOA code for the departure airport
+driveTime = getTravelTime(parsedAddress, flightInfo.origin) / 60
+estimatedTime = driveTime
 
-    currentTime = time.time()
-    timeBeforeFlight = int(flightInfo[1]) - currentTime
+if timing == 'early':
+    estimatedTime += 40
+else:
+    estimatedTime += 20
 
-    # FlightInfo.orgin returns the ICOA code for the departure airport
-    driveTime = getTravelTime(parsedAddress, flightInfo.origin) / 60
-    estimatedTime = driveTime
+if kids == 'yes':
+    estimatedTime *= 1.5
 
-    if timing == 'early':
-        estimatedTime += 40
-    else:
-        estimatedTime += 20
+estimatedTime = estimatedTime * 60
+timeBeforeLeave = timeBeforeFlight - estimatedTime
 
-    if kids == 'yes':
-        estimatedTime *= 1.5
-
-    estimatedTime = estimatedTime * 60
-    timeBeforeLeave = timeBeforeFlight - estimatedTime
-
-    if isTesting:
-        return str(timeBeforeLeave)
-    else:
-        return json.dumps(result=timeBeforeLeave, start=address, end=departAirport,
-                       departure=time.strftime('%H:%M:%S', time.localtime(currentFlight['filed_departuretime'])),
-                       arrival=time.strftime('%H:%M:%S', time.localtime(currentFlight['estimatedarrivaltime'])),
-                       destination=currentFlight['destination'])
-
-
-getTotalTime()
+return json.dumps(result=timeBeforeLeave, start=address, end=departAirport,
+            departure=time.strftime('%H:%M:%S', time.localtime(currentFlight['filed_departuretime'])),
+            arrival=time.strftime('%H:%M:%S', time.localtime(currentFlight['estimatedarrivaltime'])),
+            destination=currentFlight['destination'])
