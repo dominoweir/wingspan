@@ -8,6 +8,9 @@ import cgi, cgitb
 data= cgi.FieldStorage()
 form = data["form"]
 
+f = open('data.json','w')
+f.close()
+
 estimatedTime = 0
 parsed = []
 
