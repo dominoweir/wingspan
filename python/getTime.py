@@ -8,7 +8,7 @@ import cgi, cgitb
 data= cgi.FieldStorage()
 form = data["form"]
 
-f = open('data.json','w')
+f = open('../data.json','w')
 f.close()
 
 estimatedTime = 0
@@ -50,7 +50,7 @@ if kids == 'yes':
 estimatedTime = estimatedTime * 60
 timeBeforeLeave = timeBeforeFlight - estimatedTime
 
-with open('data.json', 'w') as outfile:
+with open('../data.json', 'w') as outfile:
     outfile.truncate()
     json.dumps({result=timeBeforeLeave, start=address, end=departAirport,
             departure=time.strftime('%H:%M:%S', time.localtime(currentFlight['filed_departuretime'])),
